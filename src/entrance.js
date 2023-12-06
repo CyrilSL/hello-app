@@ -1,20 +1,46 @@
+// UserSelectionScreen.js
+
 import React from 'react';
-import { View, TextInput } from 'react-native';
-import {  Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Button, Layout, Text } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 
+const UserSelectionScreen = () => {
+  const navigation = useNavigation();
 
-export default Entrance = () => {
-    return (
-      <View style={{ flex: 1 }}> 
-        {/* Input Area */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-          <TextInput
-            placeholder="Type a message"
-            style={{ flex: 1, marginRight: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 8 }}
-          />
-          <IconButton icon="send" onPress={() => console.log('Send')} />
-        </View>
-      </View>
-    );
+  const handleUserSelection = (sender,recipient) => {
+    // Navigate to AnotherScreen and pass the selected user as a parameter
+    navigation.navigate('ChatScreen', { senderUser: sender, recipientUser: recipient });
   };
 
+  return (
+    <Layout style={styles.container}>
+      <Button
+        style={styles.button}
+        onPress={() => handleUserSelection('Cyril','Afbi')}
+      >
+        You are Cyril
+      </Button>
+      <Button
+        style={styles.button}
+        onPress={() => handleUserSelection('Afbi','Cyril')}
+      >
+        You are Afbi
+      </Button>
+    </Layout>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  button: {
+    marginVertical: 8,
+  },
+});
+
+export default UserSelectionScreen;

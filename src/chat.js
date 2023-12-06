@@ -1,38 +1,60 @@
-import React from 'react';
-import { View, TextInput } from 'react-native';
-import {  Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, FlatList } from 'react-native';
+import { Button, Input, Layout, Text, Avatar } from '@ui-kitten/components';
 
+const ChatScreen = () => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
 
-export default ChatScreen = () => {
-    return (
-      <View style={{ flex: 1 }}>
-        {/* Header */}
-        <Card.Title
-          title="John Doe"
-          subtitle="Active now"
-        //   left={(props) => <Avatar.Image {...props} source={require('./path/to/avatar.png')} />}
-          right={(props) => <IconButrton {...props} icon="phone" onPress={() => console.log('Call')} />}
-        />
-  
-        {/* Chat Messages */}
-        <Card>
-          <Card.Content>
-            <Paragraph>Hey, how are you?</Paragraph>
-          </Card.Content>
-          <Card.Actions>
-            <Button onPress={() => console.log('Reply')}>Reply</Button>
-          </Card.Actions>
-        </Card>
-  
-        {/* Input Area */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-          <TextInput
-            placeholder="Type a message"
-            style={{ flex: 1, marginRight: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 8 }}
-          />
-          <IconButton icon="send" onPress={() => console.log('Send')} />
-        </View>
-      </View>
-    );
+  const handleSend = () => {
+    if (newMessage.trim() !== '') {
+      setMessages([...messages, { id: messages.length, text: newMessage, user: 'You' }]);
+      setNewMessage('');
+    }
   };
 
+  const renderMessage = ({ item }) => (
+    <View
+      style={{
+        flexDirection: item.user === 'You' ? 'row-reverse' : 'row',
+        marginVertical: 4,
+        alignItems: 'center',
+      }}
+    >
+      <Avatar source={{ uri: 'https://placekitten.com/200/200' }} />
+      <View
+        style={{
+          backgroundColor: item.user === 'You' ? '#2189DC' : '#E5E5E5',
+          borderRadius: 8,
+          paddingHorizontal: 12,
+          paddingVertical: 8,
+          marginHorizontal: 8,
+        }}
+      >
+        <Text style={{ color: item.user === 'You' ? '#FFF' : '#000' }}>{item.text}</Text>
+      </View>
+    </View>
+  );
+
+  return (
+    <Layout style={{ flex: 1 }}>
+      <FlatList
+        data={messages}
+        renderItem={renderMessage}
+        keyExtractor={(item) => item.id.toString()}
+        inverted
+      />
+      <Layout style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
+        <Input
+          style={{ flex: 1, marginRight: 8 }}
+          placeholder="Type a message"
+          value={newMessage}
+          onChangeText={(text) => setNewMessage(text)}
+        />
+        <Button onPress={handleSend}>Send</Button>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default ChatScreen;
