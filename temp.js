@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 export default App = () => (
+    
   <ApplicationProvider {...eva} theme={eva.dark}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="UserSelectionScreen">

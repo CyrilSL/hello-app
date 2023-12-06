@@ -5,18 +5,25 @@ import { supabase } from '../utils/supabase';
 import { useRoute } from '@react-navigation/native';
 
 
-const ChatScreen = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+interface Message {
+  id: number;
+  message: string;
+  sender: string;
+  recipient: string;
+  created_at: string; // Adjust the type based on your actual data type
+}
+
+const ChatScreen: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>('');
 
 
   const route = useRoute();
   const { senderUser } = route.params;
   const { recipientUser } = route.params;
 
-   console.log('This sender is : '+senderUser)
-   console.log('Receiver is : '+ recipientUser)
-   
+  console.log('This sender is : ' + senderUser);
+  console.log('Receiver is : ' + recipientUser);
 
   const fetchMessages = async () => {
     try {
@@ -24,7 +31,7 @@ const ChatScreen = () => {
       if (error) {
         console.error('Error fetching messages:', error.message);
       } else {
-        setMessages(data);
+        setMessages(data || []);
       }
     } catch (error) {
       console.error('Error fetching messages:', error.message);
@@ -53,7 +60,7 @@ const ChatScreen = () => {
     }
   };
 
-  const renderMessage = ({ item }) => (
+  const renderMessage = ({ item }: { item: Message }) => (
     <View
       style={{
         flexDirection: item.sender === senderUser ? 'row-reverse' : 'row',
@@ -82,7 +89,6 @@ const ChatScreen = () => {
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id.toString()}
-        
       />
       <Layout style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
         <Input

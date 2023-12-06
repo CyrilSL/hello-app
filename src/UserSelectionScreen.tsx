@@ -1,14 +1,14 @@
-// UserSelectionScreen.js
-
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Layout } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
-const UserSelectionScreen = () => {
-  const navigation = useNavigation();
+interface UserSelectionScreenProps {}
 
-  const handleUserSelection = (sender,recipient) => {
+const UserSelectionScreen: React.FC<UserSelectionScreenProps> = () => {
+  const navigation = useNavigation();
+  
+  const handleUserSelection = (sender: string, recipient: string) => {
     // Navigate to AnotherScreen and pass the selected user as a parameter
     navigation.navigate('ChatScreen', { senderUser: sender, recipientUser: recipient });
   };
@@ -17,13 +17,13 @@ const UserSelectionScreen = () => {
     <Layout style={styles.container}>
       <Button
         style={styles.button}
-        onPress={() => handleUserSelection('Cyril','Afbi')}
+        onPress={() => handleUserSelection('Cyril', 'Afbi')}
       >
         You are Cyril
       </Button>
       <Button
         style={styles.button}
-        onPress={() => handleUserSelection('Afbi','Cyril')}
+        onPress={() => handleUserSelection('Afbi', 'Cyril')}
       >
         You are Afbi
       </Button>
