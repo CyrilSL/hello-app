@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, FlatList } from 'react-native';
 import { Button, Input, Layout, Text, Avatar } from '@ui-kitten/components';
 import { supabase } from '../utils/supabase';
 import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-
+  
 interface Message {
   id: number;
   message: string;
@@ -14,6 +15,15 @@ interface Message {
 }
 
 const ChatScreen: React.FC = () => {
+  // Header removed
+  const navigation = useNavigation();
+  const fontLoadedRef = useRef(false);
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
 
@@ -85,11 +95,11 @@ const ChatScreen: React.FC = () => {
 
   return (
     <Layout style={{ flex: 1 }}>
-      <FlatList
+<FlatList
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id.toString()}
-      />
+      /> 
       <Layout style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
         <Input
           style={{ flex: 1, marginRight: 8 }}

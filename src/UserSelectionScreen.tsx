@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
 
   text1:{
-    fontFamily: 'my-font', 
+    // fontFamily: 'my-font', 
     color: '#FFFFFF',
     fontSize:50,
     height:100
