@@ -39,7 +39,6 @@ useEffect(() => {
   };
 
   return (
-
     <Layout style={styles.container}>
     <Text style={styles.text1}> Who Are You???</Text>
       <TouchableOpacity style={styles.button1} onPress={() => handleUserSelection('Cyril', 'Afbi')}>
@@ -53,26 +52,6 @@ useEffect(() => {
         </ImageBackground>
       </TouchableOpacity>
     </Layout>
-    
-    
-    
-    
-    // <Layout style={styles.container}>
-    //   <Button
-    //     style={styles.button}
-    //     onPress={() => handleUserSelection('Cyril', 'Afbi')}
-    //   >
-        
-    //     You are Cyril
-    //   </Button>
-    //   <Button
-    //     style={styles.button}
-    //     onPress={() => handleUserSelection('Afbi', 'Cyril')}
-    //   >
-    //     You are Afbi
-    //   </Button>
-    
-    // </Layout>
   );
 };
 

@@ -4,7 +4,7 @@ import { Button, Input, Layout, Text, Avatar } from '@ui-kitten/components';
 import { supabase } from '../utils/supabase';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-
+import { LogBox } from 'react-native';
   
 interface Message {
   id: number;
@@ -15,6 +15,8 @@ interface Message {
 }
 
 const ChatScreen: React.FC = () => {
+
+  LogBox.ignoreAllLogs();
   // Header removed
   const navigation = useNavigation();
   const fontLoadedRef = useRef(false);
@@ -23,10 +25,15 @@ const ChatScreen: React.FC = () => {
       headerShown: false,
     });
   }, [navigation]);
-
+  
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
 
+  const getItemLayout1 = (data: Message[] | null | undefined, index: number) => ({
+    length: 80, // height of each item
+    offset: 80 * index,
+    index,
+  });
 
   const route = useRoute();
   const { senderUser } = route.params;
@@ -96,9 +103,11 @@ const ChatScreen: React.FC = () => {
   return (
     <Layout style={{ flex: 1 }}>
 <FlatList
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item) => item.id.toString()}
+       data={messages}
+       renderItem={renderMessage}
+       keyExtractor={(item) => item.id.toString()}
+       initialScrollIndex={messages.length - 1}   //Scroll to last 
+       getItemLayout={getItemLayout1} 
       /> 
       <Layout style={{ flexDirection: 'row', alignItems: 'center', padding: 8 }}>
         <Input
@@ -110,6 +119,7 @@ const ChatScreen: React.FC = () => {
         <Button onPress={handleSend}>Send</Button>
       </Layout>
     </Layout>
+    
   );
 };
 
